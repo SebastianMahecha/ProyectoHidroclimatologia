@@ -1,0 +1,688 @@
+
+<html>
+<head>
+	<script  type="text/javascript" src="/static/main/js/jquery-3.1.1.js"></script>
+
+	<script  type="text/javascript" src="/static/main/js/jquery-3.1.1.min.js"></script>
+	<script  type="text/javascript" src="/static/main/js/xlsx.full.min.js"></script>
+	<script  type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+	
+	<script  type="text/javascript" src="/static/main/css/bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/static/main/css/bootstrap-3.3.7/dist/css/bootstrap.css">
+	<script  type="text/javascript" src="/static/main/js/basico/ajax.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/dom.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/resemble.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/upload.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/basico.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/base.js"></script>	
+		
+<!------------------------------------------------- INICIO MENU SECUNDARIO ------------------------------------------------------->
+    
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"></li>
+      <li class="dropdown">
+        
+          <li><a href="/main/indexprincipal">Ir al inicio</a></li>
+          
+        </ul>
+      </li>
+      
+    </ul>
+  </div>
+</nav> 
+
+<!------------------------------------------------ FIN MENU DE SECUNDARIO -------------------------------------------------------->
+		
+
+<h1>ARCHIVO</h1>
+
+</head>
+
+<body>
+
+{% csrf_token %}
+
+
+
+
+<!--###############################################-----INICIO DE INFORMACION-----##############################################-->
+
+<!--#########################-----INICIO INPUT TYPE HIDDEN PARA LO DE GUARDAR Y ACTUALIZAR INFORMACION-----##################-->
+		
+		<input type="hidden" name="id" id="id" ><br>
+
+<!--##########################-----FIN INPUT TYPE HIDDEN PARA LO DE GUARDAR Y ACTUALIZAR INFORMACION-----####################-->
+
+<h1>INFORMACIÓN</h1>
+
+<button onclick="abrirmodal()" class="btn btn-primary"> Nuevo dato del IDEAM </button>	
+
+
+<div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+        <button type="button" onclick="refrescar_pagina()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+               
+            <h3>Información</h3>
+     </div>
+         <div class="modal-body">
+			<p>Adjunté el excel en formato .CSV</p>
+			<input id="archivo" type="file" class="btn btn-primary">	
+
+            
+     </div>
+         <div class="modal-footer">
+		<p><button id="enviar" data-dismiss="modal" onclick="cargarArchivo()" class="btn btn-success">Guardar excel</button></p>
+	    <!--<button onclick="guardar()" id="enviar-btn" data-dismiss="modal" class="btn btn-success">Guardar</button>-->
+
+		<button id="enviarbtn" onclick="refrescar_pagina()" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
+        
+     </div>
+      </div>
+   </div>
+</div>
+
+<br>
+<br>
+
+<!---------------------------------------- inicio parte 1 - alerta personalizado ------------------------------------------------>
+
+<!-- <div class="alert " id="alert_id" style="display:none;">  
+  
+</div> -->
+  
+<!------------------------------------------ fin parte 1 - alerta personalizado -------------------------------------------------->
+
+<!------------------------------------------- inicio parte 1 - alerta de confirmacion -------------------------------------------->
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
+        <p>Esta seguro que desea eliminar el dato o registro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="actionConfirm(true)" id="modal-btn-si">Si</button>
+        <button type="button" class="btn btn-primary" onclick="actionConfirm(false)" id="modal-btn-no">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---------------------------------------- fin parte 1 - alerta de confirmacion -------------------------------------------------->     
+
+
+<!------------------------------------------- inicio parte 1 - alerta personalizado 2 -------------------------------------------->
+
+
+<div id="modal_alert_id"  class="modal fade centered-modal"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
+  <div   class="modal-dialog ">
+    <div id="background-modal" class="modal-content">
+      
+        
+        <h2 id="alert_id" class="modal-title text-center"></h2>
+        
+      
+    </div>
+  </div>
+</div>
+
+
+
+<!---------------------------------------- fin parte 1 - alerta personalizado 2 -------------------------------------------------->     
+
+
+
+<!----------------------------------- inicio tabla -------------------------------------->
+
+<div class="w3-container" style="">
+<table id="tabla_paginacion_id" class="display" border="2" cellspacing="0" width="99%">
+		<thead>
+			<tr>
+				<th class="rotate"><div>ID</div></th>
+				<th class="rotate"><div>CODIGO DE LA ESTACION</div></th>
+				<th class="rotate"><div>NOMBRE DE LA ESTACION</div></th>
+				<th class="rotate"><div>LATITUD</div></th>
+				<th class="rotate"><div>LONGITUD</div></th>
+				<th class="rotate"><div>ALTITUD</div></th>
+				<th class="rotate"><div>CATEGORIA</div></th>
+				<th class="rotate"><div>ENTIDAD</div></th>
+				<th class="rotate"><div>AREA OPERATIVA</div></th>
+				<th class="rotate"><div>DEPARTAMENTO</div></th>
+				<th class="rotate"><div>MUNICIPIO</div></th>
+				<th class="rotate"><div>FECHA DE INSTALACION</div></th>
+				<th class="rotate"><div>FECHA DE SUSPENSION</div></th>
+				<th class="rotate"><div>ID PARAMETRO</div></th>
+				<th class="rotate"><div>ETIQUETA</div></th>
+				<th class="rotate"><div>DESCRIPCION DE SERIE</div></th>
+				<th class="rotate"><div>FRECUENCIA</div></th>
+				<th class="rotate"><div>FECHA</div></th>
+				<th class="rotate"><div>VALOR</div></th>
+				<th class="rotate"><div>GRADO</div></th>
+				<th class="rotate"><div>CALIFICADOR</div></th>
+				<th class="rotate"><div>NIVEL DE APROVACION</div></th>
+				
+				<th colspan="2">OPCIONES</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for d in informacion %} 
+				<tr>
+					<td>{{ d.id }}</td>
+					<td>{{ d.codigoEstacion }}</td>
+					<td>{{ d.nombreEstacion }}</td>
+					<td>{{ d.latitud }}</td>
+					<td>{{ d.longitud }}</td>
+					<td>{{ d.altitud }}</td>
+					<td>{{ d.categoria }}</td>
+					<td>{{ d.entidad }}</td>
+					<td>{{ d.areaOperativa }}</td>
+					<td>{{ d.departamento }}</td>
+					<td>{{ d.municipio }}</td>
+					<td>{{ d.fechaInstalacion }}</td>
+					<td>{{ d.fechaSuspension }}</td>
+					<td>{{ d.idParametro }}</td>
+					<td>{{ d.etiqueta }}</td>
+					<td>{{ d.descripcionSerie }}</td>
+					<td>{{ d.frecuencia }}</td>
+					<td>{{ d.fecha }}</td>
+					<td>{{ d.valor }}</td>
+					<td>{{ d.grado }}</td>
+					<td>{{ d.calificador }}</td>
+					<td>{{ d.nivelAprovacion }}</td>
+					<!-----------------------------------------------------------------------><!------------------------------------------------------------------------------------------>
+										
+					<td id="eliminar_id"><button class="btn btn-confirm btn-danger" onclick="openConfirm('{informacion_id:{{ d.id }}}','eliminarInformacion')" >Eliminar</button></td>
+
+					 
+					<!-----------------------------------------------------------------------><!------------------------------------------------------------------------------------------>
+				</tr>
+			{% endfor %}   
+		</tbody>
+		
+	</tbody>
+</table>
+</div>
+
+
+<br>
+<br>
+<br>
+
+<!------------------------------------ fin tabla --------------------------------------->
+
+<!--#################################################-----FIN DE INFORMACION-----################################################-->
+
+</body>	
+
+
+
+
+
+
+
+  <!-- -------------------------------------------------------------------- -->
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  <!-- -------------------------------------------------------------------- -->
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+          <h2>Proceso 01</h2>
+        <div class="panel-body">
+          <a href="#proceso1" data-toggle="collapse">
+            <span>
+            <img class="img-responsive center-block imagen" src="/static/main/images/Color-Office.png" alt="Color Excel" style="display: block; margin-left: auto; margin-right: auto;"></span>
+          </a>
+          <br>
+          <br>
+          <div id="proceso1" class="collapse">
+			 <button id="enviar" onclick="verResultados('1')">Resultados</button>
+            <p><a href="/static/main/images/Color-Office.png" download="Acá irá el documento Excel">Descargar el Formulario Excel</a></p>
+            <form >
+            <p><input name="MAX_FILE_SIZE" type="hidden" value="500000" />Sube el formulario completo:</p>
+            <p><input id="robot1" name="archivo-a-subir" type="file" /></p>
+            
+            </form>
+            <p><button id="enviar" onclick="cargarOrden('1')">Enviar a WinBots</button></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- -------------------------------------------------------------------- -->
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+          <h2>Proceso 02</h2>
+        <div class="panel-footer">
+          <a href="#proceso2" data-toggle="collapse">
+            <span>
+            <img class="img-responsive center-block imagen" src="/static/main/images/Color-Word.png" alt="Color Excel" style="display: block; margin-left: auto; margin-right: auto;"></span>
+          </a>
+          <br>
+          <br>
+          <div id="proceso2" class="collapse">
+            <p><a href="/static/main/images/Color-Word.png" download="Acá irá el documento Excel">Descargar el Formulario Excel</a></p>
+            <form action="subir-archivos.php" enctype="multipart/form-data" method="POST">
+            <p><input name="MAX_FILE_SIZE" type="hidden" value="500000" />Sube el formulario completo:</p>
+            <p><input name="archivo-a-subir" type="file" /></p>
+            <p><input type="submit" value="Subir Archivo" /></p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+     <!-- -------------------------------------------------------------------- -->
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+
+<!--############################################-----INICIO CARGAR ARCHIVO DE EXCEL-----########################################-->
+
+<script  type="text/javascript">
+	function abrirmodal(){
+		
+		 $("#mostrarmodal").modal("show")
+		 gId("id").value=0;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var base64Excel
+var nombreExcel
+var id_orden = ""
+
+function cargarArchivo()
+{
+	
+	var excel = document.body.querySelector('input[id="archivo"]').files[0];
+	var reader = new window.FileReader();
+	if(excel)
+	{
+		
+		reader.readAsDataURL(excel);
+		reader.onloadend = function()
+		{
+				
+			base64Excel=reader.result;
+			guardarArchivo();
+		
+		}
+	}
+}
+
+
+function guardarArchivo(value,status)
+{
+	
+	if(status==undefined)
+	{
+			
+		var datos= {}
+		ajaxBasic(datos,"/main/guardarArchivo/",'guardarArchivo');
+	}
+	else
+	{
+		nombreExcel = value.nombre_archivo;
+		id_informacion = value.id_informacion;
+		enviarExcel();
+		
+	}
+}
+
+
+function enviarExcel()
+{
+	var exc= base64Excel+"<<>>";
+
+	partialClear();
+	
+	upName = nombreExcel;
+	upData = exc;
+	$tam = upData.length;
+	upUrl = '*'+BASE2+'/main/guardarExcel/';
+	upAction = progresoImagen;
+	partialUpload('');
+
+}
+
+function progresoImagen()
+{
+	if(upFin == 1)
+{
+		setTimeout(function(){
+
+		},3000);
+	}
+}
+
+
+function refrescar_pagina(timeoutPeriod) {
+	setTimeout("location.reload(true);",timeoutPeriod);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//function guardar(value,status)
+//{
+	
+//	if(status==undefined)
+//	{
+//	    var informacion_id = gId("id").value;
+//	    var codigoEstacion = gId("codigoEstacion").value;
+//	    var nombreEstacion = gId("nombreEstacion").value;
+//	    var latitud = gId("latitud").value;
+//	    var longitud = gId("longitud").value;
+//	    var altitud = gId("altitud").value;
+//	    var categoria = gId("categoria").value;
+//	    var entidad = gId("entidad").value;
+//	    var areaOperativa = gId("areaOperativa").value;
+//	    var departamento = gId("departamento").value;
+//	    var municipio = gId("municipio").value;
+//	    var fechaInstalacion = gId("fechaInstalacion").value;
+//	    var fechaSuspension = gId("fechaSuspension").value;
+//	    var idParametro = gId("idParametro").value;
+//	    var etiqueta = gId("etiqueta").value;
+//	    var descripcionSerie = gId("descripcionSerie").value;
+//	    var frecuencia = gId("frecuencia").value;
+//	    var fecha = gId("fecha").value;
+//	    var valor = gId("valor").value;
+//	    var grado = gId("grado").value;
+//	    var calificador = gId("calificador").value;
+//	    var nivelAprovacion = gId("nivelAprovacion").value;
+	    
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+//		var datos= {"id": informacion_id, "codigoEstacion": codigoEstacion, "nombreEstacion": nombreEstacion, "latitud": latitud, "longitud": longitud, "altitud": altitud, "categoria": categoria, "entidad": entidad, "areaOperativa": areaOperativa, "departamento": departamento, "municipio": municipio, "fechaInstalacion": fechaInstalacion, "fechaSuspension": fechaSuspension, "idParametro": idParametro, "etiqueta": etiqueta, "descripcionSerie": descripcionSerie, "frecuencia": frecuencia, "fecha": fecha, "valor": valor, "grado": grado, "calificador": calificador, "nivelAprovacion": nivelAprovacion}
+			
+//		ajaxBasic(datos,"/main/guardarInformacion",'guardar');
+//	}
+//	else
+//	{
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+//		if(value==2)
+//		{
+
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			
+//			$("#modal_alert_id").modal('show');
+//			gId("background-modal").style.backgroundColor = "#5cb85c";
+//			gId("alert_id").innerHTML = "Creado con exito"
+//			gId("mostrarmodal").style.display="none";
+//			setTimeout(function(){document.location.reload(true);},2000);
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+
+
+//		}
+//		else if(value==3)
+//		{
+
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+//			$("#modal_alert_id").modal('show');			
+//			gId("background-modal").style.backgroundColor = "#5cb85c";			
+//			gId("alert_id").innerHTML = "Editado con exito"			
+//			gId("mostrarmodal").style.display="none";
+//			setTimeout(function(){document.location.reload(true);},2000);						
+			
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+		
+//		}
+//		else
+//		{
+
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+//			$("#modal_alert_id").modal('show');
+	//		gId("background-modal").style.backgroundColor = "red";			
+	//		gId("alert_id").innerHTML = "No se ha podido guardar con exito"			
+//			gId("mostrarmodal").style.display="none";
+//			setTimeout(function(){document.location.reload(true);},2000);												
+			
+			
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+		
+		
+//		}
+		
+//	}
+//}
+
+
+//function eliminarInformacion(value,status)
+//{
+//	if(status==undefined)
+//	{
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+//		var datos = value
+//		ajaxBasic(datos,"/main/eliminarInformacion",'eliminarInformacion');
+//	}
+//	else
+//	{
+
+//		if(value==1)
+//		{
+		
+//			gId("alert_id").innerHTML= "EL REGISTRO YA NO EXISTE EN EL SISTEMA";
+		
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+//		}
+//		else if(value==2)		
+//		{
+		
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+
+//			$("#modal_alert_id").modal('show');
+//			gId("background-modal").style.backgroundColor = "red";			
+						
+//			gId("alert_id").innerHTML = "Eliminado con exito"
+//			gId("mostrarmodal").style.display="none";
+//			setTimeout(function(){document.location.reload(true);},2000);												
+
+			
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+//		}
+//		else if(value==3)
+	//	{
+//			gId("alert_id").innerHTML= "NO ES POSIBLE ELIMINAR ESTE REGISTRO";
+//			gId("alert_id").style.display="block";
+		
+	
+	
+//		}
+		
+//		setTimeout(function(){document.location.reload(true);},2000);
+
+
+//	}
+//}
+
+
+
+<!--############################################----- FIN CARGAR ARCHIVO DE EXCEL -----########################################-->
+	
+	</script>
+	
+<!--############################################-----INICIO CSS DE INFORMACION-----###########################################-->
+<style type="text/css">
+th, td {
+
+	text-align: center;
+
+}
+
+th.rotate {
+  height: 140px;
+  
+  text-align: center;
+}
+
+th.rotate > div {
+
+  transform: 
+
+    translate(1%, 19%) 
+
+  /* rotacion de 90º del texto de la tabla */
+
+    rotate(270deg);
+
+}
+
+table th {
+  text-align: center;
+}	
+
+.alert {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    
+    margin-bottom: 10px;
+    text-align: center;
+    
+    margin-left: 15px;
+    margin-right: 15px;
+    
+    width: 60%;
+    height: 20%;
+    line-height: 20px;
+    font-size: 60px;
+    
+}
+#background-modal {
+   color: #ffffff;
+	
+
+}	
+
+.centered-modal.in {
+    display: flex !important;
+}
+.centered-modal .modal-dialog {
+    margin: auto;
+}
+
+</style>
+
+<!--############################################-----FIN CSS DE INFORMACION-----###########################################-->
+
+</html>

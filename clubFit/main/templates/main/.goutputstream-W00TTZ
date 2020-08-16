@@ -1,0 +1,254 @@
+
+
+<html>
+
+<head>
+
+<script  type="text/javascript" src="/static/main/js/jquery-3.1.1.js"></script>
+	<script  type="text/javascript" src="/static/main/css/bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/static/main/css/bootstrap-3.3.7/dist/css/bootstrap.css">
+	<script  type="text/javascript" src="/static/main/js/basico/ajax.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/dom.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/resemble.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/upload.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/basico.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/base.js"></script>
+
+
+<!------------------------------------------------- INICIO MENU SECUNDARIO ------------------------------------------------------->
+    
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"></li>
+      <li class="dropdown">
+        
+          <li><a href="/main/indexprincipal">Ir al inicio</a></li>
+          
+        </ul>
+      </li>
+      
+    </ul>
+  </div>
+</nav> 
+
+<!------------------------------------------------ FIN MENU DE SECUNDARIO -------------------------------------------------------->
+
+
+</head>
+
+<body>
+
+{% csrf_token %}
+		
+		<input type="hidden" name="id" id="id" ><br>
+
+<!---------------------------------------- inicio parte 1 - alerta personalizado ------------------------------------------------>
+
+<div class="alert " id="alert_id" style="display:none;">  
+  
+</div>
+  
+<!------------------------------------------ fin parte 1 - alerta personalizado -------------------------------------------------->
+
+
+<!--------------------------------------------- inicio formulario de registro ---------------------------------------------------->
+			
+			<div class="container">
+            <form class="form-horizontal" role="form">
+                <h1>SEGUIMIENTO DEL CLIENTE</h1>
+                
+
+            <div class="">
+				<form>
+				
+                <div class="form-group">
+                <label for="firstName" class="col-sm-3 control-label">cliente * </label>
+                <div class="col-sm-9">
+                <select id="cliente_id" name="registro_name_1" class="form-control">
+						<option value="0" selected>Seleccione...</option>
+						{% for d in cliente %}
+							<option value="{{ d.id }}" >{{ d.nombre }}</option>
+						{% endfor %}
+						
+				</select>
+                </div>	
+                </div>
+                
+
+                
+                <div class="form-group">
+				   <label for="firstName" class="col-sm-3 control-label">estatura * </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="estatura" placeholder="ingrese su estatura" class="form-control" autofocus>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName" class="col-sm-3 control-label">peso actual * </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="peso_actual" placeholder="ingrese su peso actual" class="form-control" autofocus>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">peso deseado </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="peso_deseado" placeholder="ingrese su peso deseado" class="form-control" name= "email">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">kilogramos de grasa </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="kilogramos_grasa" placeholder="ingrese los kilogramos de grasa" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">kilogramos grasa magra </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="kilogramos_grasa_magra" placeholder="ingrese los kilogramos de grasa magra" class="form-control">
+                    </div>
+                </div>
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+                
+                <div class="form-group">
+                    <label for="birthDate" class="col-sm-3 control-label">fecha de nacimiento</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="fecha_nacimiento" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                        <label class="col-sm-3 control-label">profesion u oficio </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="profesion_oficio" placeholder="ingrese su profesion u oficio" class="form-control">
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                        <label class="col-sm-3 control-label">numero de celular </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="numero_celular" placeholder="ingrese su numero de celular" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                        <label class="col-sm-3 control-label">numero de telefono </label>
+                    <div class="col-sm-9">
+                        <input type="text" id="numero_telefono" placeholder="ingrese su numero de telefono" class="form-control">
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                        <label class="col-sm-3 control-label">direccion de residencia*</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="direccion_residencia" placeholder="ingrse su direccion de residencia" class="form-control">
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                        <label class="col-sm-3 control-label">correo electronico *</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="email" placeholder="ingrese su correo electronico" class="form-control">
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                        <label class="col-sm-3 control-label">estado de salud *</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="estado" placeholder="bueno, malo, regular" class="form-control">
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                        <label class="col-sm-3 control-label">cliente referido</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="cliente_referido" class="form-control">
+                    </div>
+                </div>
+                   
+                
+                <button onclick="guardar()" class="btn btn-primary btn-block">Registro</button>
+                <button onclick="" id="enviarbtn" class="btn btn-danger btn-block">Cancelar</button>
+            </form> <!-- /form -->
+        </div> <!-- ./container -->
+
+<!--------------------------------------------- fin formulario de registro ------------------------------------------------------->
+			
+			<br>
+            <br>
+            <br>
+            
+</body>
+
+<script  type="text/javascript">
+
+gId("id").value=0;
+
+
+function guardar(value,status)
+{
+	if(status==undefined)
+	{
+	    var cliente_id = gId("id").value;
+	    var numero_identidad = gId("numero_identidad").value;
+	    var nombres = gId("nombres").value;
+	    var primer_apellido = gId("primer_apellido").value;
+	    var segundo_apellido = gId("segundo_apellido").value;
+	    var genero = gId("genero").value;
+	    var fecha_nacimiento = gId("fecha_nacimiento").value;
+	    var profesion_oficio = gId("profesion_oficio").value;
+	    var numero_celular = gId("numero_celular").value;
+	    var numero_telefono = gId("numero_telefono").value;
+	    var direccion_residencia = gId("direccion_residencia").value;
+	    var email = gId("email").value;
+	    var estado = gId("estado").value;
+	    var departamento_id = gId("departamento_id").value;
+	    var municipio_id = gId("municipio_id").value;
+	    var cliente_referido = gId("cliente_referido").value;
+	    	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		var datos= {"id": cliente_id, "numero_identidad": numero_identidad, "nombres": nombres, "primer_apellido": primer_apellido, "segundo_apellido": segundo_apellido, "genero": genero, "fecha_nacimiento": fecha_nacimiento, "profesion_oficio": profesion_oficio, "numero_celular": numero_celular, "numero_telefono": numero_telefono, "direccion_residencia": direccion_residencia, "email": email, "estado": estado, "departamento_id": departamento_id, "municipio_id": municipio_id, "cliente_referido": cliente_referido}
+		ajaxBasic(datos,"/main/guardarcliente",'guardar');
+	}
+	else
+	{
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		if(value==2)
+		{
+			alert("creado con exito")
+
+		}
+		else if(value==3)
+		{
+			alert("editado con exito")
+		
+		}
+		else
+		{
+			alert("no ok")
+		
+		}
+		
+	}
+}
+
+
+</script>
+
+</html>
+

@@ -1,0 +1,368 @@
+<html>
+<head>
+	<script  type="text/javascript" src="/static/main/js/jquery-3.1.1.js"></script>
+	<script  type="text/javascript" src="/static/main/css/bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/static/main/css/bootstrap-3.3.7/dist/css/bootstrap.css">
+	<script  type="text/javascript" src="/static/main/js/basico/ajax.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/dom.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/resemble.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/upload.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/basico.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/base.js"></script>
+	
+	<!------------------------------------------------- INICIO MENU SECUNDARIO ------------------------------------------------------->
+    
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"></li>
+      <li class="dropdown">
+        
+          <li><a href="/main/indexprincipal">Ir al inicio</a></li>
+          
+        </ul>
+      </li>
+      
+    </ul>
+  </div>
+</nav> 
+
+<!------------------------------------------------ FIN MENU DE SECUNDARIO -------------------------------------------------------->
+
+	
+<h1>TIPO DE DOCUMENTO</h1>
+
+</head>
+
+<body>
+
+		{% csrf_token %}
+		
+		<input type="hidden" name="id" id="id" ><br>
+		
+		
+<button onclick="abrirmodal()" class="btn btn-primary"> nuevo </button>	
+
+<div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+        <button type="button" onclick="refrescar_pagina()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        
+<h3>Tipo de documento</h3>
+
+ </div>
+         <div class="modal-body">
+			 
+            <p>Detalle </p>
+            <input type="text" id="detalle">
+</div>
+         <div class="modal-footer">
+	    <button onclick="guardar()" id="enviar-btn" data-dismiss="modal" class="btn btn-success">Guardar</button>
+
+		<button id="enviarbtn" onclick="refrescar_pagina()" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
+        
+     </div>
+      </div>
+   </div>
+</div>
+
+<br>
+<br>
+
+
+<!---------------------------------------- inicio parte 1 - alerta personalizado ------------------------------------------------>
+
+<!--<div class="alert " id="alert_id" style="display:none;">  
+  
+</div>-->
+  
+<!------------------------------------------ fin parte 1 - alerta personalizado -------------------------------------------------->
+
+<!------------------------------------------- inicio parte 1 - alerta de confirmacion -------------------------------------------->
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
+        <p>Esta seguro que desea eliminar el dato o registro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="actionConfirm(true)" id="modal-btn-si">Si</button>
+        <button type="button" class="btn btn-primary" onclick="actionConfirm(false)" id="modal-btn-no">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---------------------------------------- fin parte 1 - alerta de confirmacion -------------------------------------------------->     
+
+<!------------------------------------------- inicio parte 1 - alerta personalizado 2 -------------------------------------------->
+
+
+
+<div id="modal_alert_id"  class="modal fade centered-modal"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
+  <div   class="modal-dialog ">
+    <div id="background-modal" class="modal-content">
+      
+        
+        <h2 id="alert_id" class="modal-title text-center"></h2>
+        
+      
+    </div>
+  </div>
+</div>
+
+<!---------------------------------------- fin parte 1 - alerta personalizado 2 -------------------------------------------------->     
+
+
+<!----------------------------------- inicio tabla -------------------------------------->
+
+<table id="tabla_paginacion_id" class="display" border="2" cellspacing="0" width="99%">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>DETALLE DE DOCUMENTO</th>
+				
+				<th colspan="2">OPCIONES</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for d in tipodocumento %}
+				<tr>
+					<td>{{ d.id }}</td>
+					<td>{{ d.detalle }}</td>
+					
+					<!-----------------------------------------------------------------------><!------------------------------------------------------------------------------------------>
+					<td id="editar"><button onclick="editar('{{ d.id }}')" id="enviar-btn" data-dismiss="modal" class="btn btn-success">Modificar</button></td>
+					
+					<td id="eliminar_id"><button class="btn btn-confirm btn-danger" onclick="openConfirm('{tipodocumento_id:{{ d.id }}}','eliminartipodocumento')">Eliminar</button></td>
+					 
+					 
+					<!-----------------------------------------------------------------------><!------------------------------------------------------------------------------------------>
+				</tr>
+			{% endfor %}
+		</tbody>
+		
+	</tbody>
+</table>
+<br>
+<br>
+<br>
+
+<!------------------------------------ fin tabla --------------------------------------->
+
+            
+</body>
+
+
+<script  type="text/javascript">
+	function abrirmodal(){
+		
+		 $("#mostrarmodal").modal("show")
+		 gId("id").value=0;
+	}
+
+function guardar(value,status)
+{
+	if(status==undefined)
+	{
+	    var tipodocumento_id = gId("id").value;
+	    var detalle = gId("detalle").value;
+	    
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		var datos= {"id": tipodocumento_id, "detalle": detalle }
+		ajaxBasic(datos,"/main/guardartipodocumento",'guardar');
+	}
+	else
+	{
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		if(value==2)
+		{
+
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			
+			$("#modal_alert_id").modal('show');
+			gId("background-modal").style.backgroundColor = "#5cb85c";
+			gId("alert_id").innerHTML = "Creado con exito"
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+
+
+		}
+		else if(value==3)
+		{
+
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			$("#modal_alert_id").modal('show');			
+			gId("background-modal").style.backgroundColor = "#5cb85c";			
+			gId("alert_id").innerHTML = "Editado con exito"			
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);						
+			
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+
+		
+		}
+		else
+		{
+		
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			$("#modal_alert_id").modal('show');
+			gId("background-modal").style.backgroundColor = "red";			
+			gId("alert_id").innerHTML = "No se ha podido guardar con exito"			
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);												
+			
+			
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+
+		
+		}
+		
+	}
+}
+
+
+function editar(value,status)
+{
+	if(status==undefined)
+	{
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		var datos= { "tipodocumento_id": value }
+		ajaxBasic(datos,"/main/editartipodocumento",'editar');
+	}
+	else
+	{
+		abrirmodal();
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		gId('id').value = value.id
+		gId('detalle').value = value.detalle
+		
+	}
+}
+
+
+
+function eliminartipodocumento(value,status)
+{
+	if(status==undefined)
+	{
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		var datos = value;
+		ajaxBasic(datos,"/main/eliminartipodocumento",'eliminartipodocumento');
+	}
+	else
+	{
+
+		if(value==1)
+		{
+		
+			gId("alert_id").innerHTML= "EL REGISTRO YA NO EXISTE EN EL SISTEMA";
+		
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		}
+		else if(value==2)		
+		{
+		
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+
+			$("#modal_alert_id").modal('show');
+			gId("background-modal").style.backgroundColor = "red";			
+						
+			gId("alert_id").innerHTML = "Eliminado con exito"
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);												
+
+			
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+		}
+		else if(value==3)
+		{
+			gId("alert_id").innerHTML= "NO ES POSIBLE ELIMINAR ESTE REGISTRO";
+			gId("alert_id").style.display="block";
+		
+	
+	
+		}
+		
+		setTimeout(function(){document.location.reload(true);},2000);
+		
+		
+	}
+}
+
+
+function refrescar_pagina(timeoutPeriod) {
+	setTimeout("location.reload(true);",timeoutPeriod);
+}
+
+
+</script>
+
+<!--###########################################-----INICIO CSS TIPO DE DOCUMENTO-----###########################################-->
+
+<style type="text/css">
+
+th, td {
+
+	text-align: center;
+
+}
+
+
+table th {
+  text-align: center;
+}	
+
+.alert {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    
+    margin-bottom: 10px;
+    text-align: center;
+    
+    margin-left: 15px;
+    margin-right: 15px;
+    
+    width: 60%;
+    height: 20%;
+    line-height: 20px;
+    font-size: 60px;
+    
+}
+#background-modal {
+   color: #ffffff;
+	
+
+}	
+
+.centered-modal.in {
+    display: flex !important;
+}
+.centered-modal .modal-dialog {
+    margin: auto;
+}
+
+</style>
+
+<!--############################################-----FIN CSS TIPO DE DOCUMENTO-----#############################################-->
+
+</html>

@@ -1,0 +1,1035 @@
+
+<html>
+<head>
+
+	<script  type="text/javascript" src="/static/main/js/jquery-3.1.1.js"></script>
+	
+	<script  type="text/javascript" src="/static/main/css/bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/static/main/css/bootstrap-3.3.7/dist/css/bootstrap.css">
+	<script  type="text/javascript" src="/static/main/js/basico/ajax.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/dom.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/resemble.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/upload.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/basico.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/base.js"></script>
+
+
+<!------------------------------------------------- INICIO MENU SECUNDARIO ------------------------------------------------------->
+    
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"></li>
+      <li class="dropdown">
+        
+          <li><a href="/main/indexprincipal">Ir al inicio</a></li>
+          
+        </ul>
+      </li>
+      
+    </ul>
+  </div>
+</nav> 
+
+<!------------------------------------------------ FIN MENU DE SECUNDARIO -------------------------------------------------------->
+
+<h1>SEGUIMIENTO DEL CLIENTE</h1>
+
+
+</head>
+
+<body>
+	
+
+{% csrf_token %}
+		
+		<input type="hidden" name="id" id="id" ><br>
+
+
+
+<button onclick="abrirmodal()" class="btn btn-primary"> nuevo </button>	
+
+
+
+<div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+        <button type="button" onclick="refrescar_pagina()"  class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        
+			<h3>Seguimiento del cliente</h3>
+			
+			<p>cliente</p>
+
+			<select id="cliente_id" name="cliente_seguimiento_name" >
+						<option  value="0" selected>Seleccione...</option>
+						{% for d in cliente %}
+							<option id="no_editable42" value="{{ d.id }}" >{{ d.nombres }}</option>
+						{% endfor %}
+						
+			</select>    
+
+
+<!------------------------ inicio tabla dentro del modal --------------------------->
+
+ 			
+<table id="tabla" class="display" border="0" cellspacing="0" width="100%">
+
+			
+		</div>
+         <div class="modal-body">
+
+<tr>
+	<th HEIGHT="65">
+
+         <div align="left" class="col-sm-9">
+           <h5>Estatura</h5>
+
+         <input id="no_editable41" style="height:25px; font-size: 15px" align="left" type="text" id="estatura">
+         </div>
+
+       
+	</th>	
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Peso actual</h5>
+         
+            <input id="no_editable40" style="height:25px; font-size: 15px" type="text" id="peso_actual">
+         </div>
+        
+
+	</th>	
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Peso deseado</h5>
+         
+            <input id="no_editable39" style="height:25px; font-size: 15px" type="text" id="peso_deseado">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Kilogramos de grasa</h5>
+         
+            <input id="no_editable38" style="height:25px; font-size: 15px" type="text" id="kilogramos_grasa">
+         </div>
+        
+
+	</th>
+
+</tr>
+            
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Kilogramos de masa magra</h5>
+         
+            <input id="no_editable37" style="height:25px; font-size: 15px" type="text" id="kilogramos_masa_magra">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Gramos de proteína requerida</h5>
+         
+            <input id="no_editable36" style="height:25px; font-size: 15px" type="text" id="gramos_proteina_requeridos">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Déficit de sobre peso</h5>
+         
+            <input id="no_editable35" style="height:25px; font-size: 15px" type="text" id="sobre_peso_deficit">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Índice de masa corporal</h5>
+         
+            <input id="no_editable34" style="height:25px; font-size: 15px" type="text" id="indice_masa_corporal">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Porcentaje de grasa</h5>
+         
+            <input id="no_editable33" style="height:25px; font-size: 15px" type="text" id="porcentaje_grasa">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>talla de pantalón</h5>
+         
+            <input id="no_editable32" style="height:25px; font-size: 15px" type="text" id="talla_pantalon">
+         </div>
+        
+
+	</th>
+
+</tr>
+		
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Medidas del cuello</h5>
+         
+            <input id="no_editable31" style="height:25px; font-size: 15px" type="text" id="cuello">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Medidas del busto</h5>
+         
+            <input id="no_editable30" style="height:25px; font-size: 15px" type="text" id="busto">
+         </div>
+        
+
+	</th>
+</tr>
+		
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Medidas de la cintura</h5>
+         
+            <input id="no_editable29" style="height:25px; font-size: 15px" type="text" id="cintura">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Medidas de la cadera</h5>
+         
+            <input id="no_editable28" style="height:25px; font-size: 15px" type="text" id="cadera">
+         </div>
+        
+
+	</th>
+	
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Medidas de la pierna izquierda</h5>
+         
+            <input id="no_editable27" style="height:25px; font-size: 15px" type="text" id="pierna_izquierda">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Medidas de la pierna derecha</h5>
+         
+            <input id="no_editable26" style="height:25px; font-size: 15px" type="text" id="pierna_derecha">
+         </div>
+        
+
+	</th>
+	
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Medidas del brazo izquierdo</h5>
+         
+            <input id="no_editable25" style="height:25px; font-size: 15px" type="text" id="brazo_izquierdo">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Medidas del brazo derecho</h5>
+         
+            <input id="no_editable24" style="height:25px; font-size: 15px" type="text" id="brazo_derecho">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de estreñimiento</h5>
+         
+            <input id="no_editable23" style="height:25px; font-size: 15px" type="text" id="estrenimiento">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de anemia</h5>
+         
+            <input id="no_editable22" style="height:25px; font-size: 15px" type="text" id="anemia">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de colesterol alto</h5>
+         
+            <input id="no_editable21" style="height:25px; font-size: 15px" type="text" id="colesterol_alto">
+         </div>
+        
+	
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de gastritis</h5>
+         
+            <input id="no_editable20" style="height:25px; font-size: 15px" type="text" id="gastritis">
+         </div>
+        
+	
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de ulceras</h5>
+         
+            <input id="no_editable19" style="height:25px; font-size: 15px" type="text" id="ulceras">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de hemorroides</h5>
+         
+            <input id="no_editable18" style="height:25px; font-size: 15px" type="text" id="hemorroides">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de tiroides</h5>
+         
+            <input id="no_editable17" style="height:25px; font-size: 15px" type="text" id="tiroides">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de artrosis o artritis</h5>
+         
+            <input id="no_editable16" style="height:25px; font-size: 15px" type="text" id="artrosis_artritis">
+         </div>
+       
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de retención de líquidos</h5>
+         
+            <input id="no_editable15" style="height:25px; font-size: 15px" type="text" id="retencion_liquidos">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de jaquecas por migraña</h5>
+         
+            <input id="no_editable14" style="height:25px; font-size: 15px" type="text" id="jaquecas_migranas">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de triglicéridos</h5>
+         
+            <input id="no_editable13" style="height:25px; font-size: 15px" type="text" id="trigliceridos">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de osteoporosis</h5>
+         
+            <input id="no_editable12" style="height:25px; font-size: 15px" type="text" id="osteoporosis">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>fuma</h5>
+         
+            <input id="no_editable11" style="height:25px; font-size: 15px" type="text" id="fuma">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de colon irritable</h5>
+         
+            <input id="no_editable10" style="height:25px; font-size: 15px" type="text" id="colon_irritable">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de ansiedad frecuente por comidas</h5>
+         
+            <input id="no_editable9" style="height:25px; font-size: 15px" type="text" id="ansiedad_frecuente_comidas">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de apetito antes menstruación</h5>
+         
+            <input id="no_editable8" style="height:25px; font-size: 15px" type="text" id="apetito_antes_menstruacion">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de diabetes antecedentes familiares</h5>
+         
+            <input id="no_editable7" style="height:25px; font-size: 15px" type="text" id="diabetes_antecedentes_familiares">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de tensión arterial</h5>
+         
+            <input id="no_editable6" style="height:25px; font-size: 15px" type="text" id="tencion_arterial">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>Sufre de problemas del corazón</h5>
+         
+            <input id="no_editable5" style="height:25px; font-size: 15px" type="text" id="problemas_corazon">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>Día del seguimiento</h5>
+         
+            <input id="no_editable4" style="height:25px; font-size: 15px" type="text" id="dia_seguimiento">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+<tr>
+	<th HEIGHT="65">
+         <div align="left" class="col-sm-9">
+            <h5>mes del seguimiento</h5>
+         
+            <input id="no_editable3" style="height:25px; font-size: 15px" type="text" id="mes_seguimiento">
+         </div>
+        
+
+	</th>
+	<th>
+         <div align="left" class="col-sm-9">
+            <h5>foto</h5>
+         
+            <input id="no_editable2" type="file" id="foto">
+         </div>
+        
+
+	</th>
+
+</tr>
+
+
+
+
+
+             
+</table>     
+
+<!------------------------ fin tabla dentro del modal --------------------------->
+
+<!--guardar()-->
+     </div>
+         <div class="modal-footer">
+
+		
+
+	    <button onclick="guardar()" id="no_editable" data-dismiss="modal" class="btn btn-success">Guardar</button>
+
+		<button onclick="refrescar_pagina()" id="enviarbtn" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
+        
+     </div>
+      </div>
+   </div>
+</div>
+
+
+<br>
+<br>
+
+
+
+<!------------------------------------------- inicio parte 1 - alerta de confirmacion -------------------------------------------->
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="mi-modal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
+        <p>Esta seguro que desea eliminar el dato o registro?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" onclick="actionConfirm(true)" id="modal-btn-si">Si</button>
+        <button type="button" class="btn btn-primary" onclick="actionConfirm(false)" id="modal-btn-no">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!---------------------------------------- fin parte 1 - alerta de confirmacion -------------------------------------------------->     
+
+<!------------------------------------------- inicio parte 1 - alerta personalizado 2 -------------------------------------------->
+
+
+
+<div id="modal_alert_id"  class="modal fade centered-modal"  tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" >
+  <div   class="modal-dialog ">
+    <div id="background-modal" class="modal-content">
+      
+        
+        <h2 id="alert_id" class="modal-title text-center"></h2>
+        
+      
+    </div>
+  </div>
+</div>
+
+<!---------------------------------------- fin parte 1 - alerta personalizado 2 -------------------------------------------------->     
+
+
+
+
+
+
+			<div class="col-sm-9" style="width:1000px">
+
+
+<table id="tabla_id" class="display" border="1" cellspacing="0" width="100%">
+
+		<thead>
+
+			<tr>
+				<th HEIGHT="60" style="font-size: 13px" width="40">ID</th>					
+				<th HEIGHT="60" style="font-size: 13px" width="95">NÚMERO DE IDENTIDAD</th>
+				<th HEIGHT="60" style="font-size: 13px" width="95">NOMBRES</th>
+				<th HEIGHT="60" style="font-size: 13px" width="95">PRIMER APELLIDO</th>
+				<th HEIGHT="60" style="font-size: 13px" width="95">SEGUNDO APELLIDO</th>
+				<th HEIGHT="60" style="font-size: 13px" width="">DIRECCIÓN DE RESIDENCIA</th>
+				<th HEIGHT="60" style="font-size: 13px" width="">GRADO DE OBESIDAD EN EL QUE SE ENCUENTRA </th>
+				
+				<th colspan="3" style="font-size: 14px" >OPCIONES</th>
+			</tr>
+		</thead>
+		<tbody>
+					
+			{% for d in cliente_seguimiento %}	
+
+				<tr>
+					<td>{{ d.cliente.id }}</td>
+					<td>{{ d.cliente.numero_identidad }}</td>
+					<td>{{ d.cliente.nombres }}</td>
+					<td>{{ d.cliente.primer_apellido }}</td>
+					<td>{{ d.cliente.segundo_apellido }}</td>
+					<td>{{ d.cliente.direccion_residencia }}</td>
+					<td>{{ d.cliente.estado }}</td>
+
+					
+					<!-----------------------------------------------------------------------><!------------------------------------------------------------------------------------------>
+					<td id="editar" width="100"><button onclick="editar('{{ d.id }}')" id="enviar-btn" data-dismiss="modal" class="btn btn-success">Modificar</button></td>
+			
+					<td id="detalle" width="100"><button  onclick="detalle('{{ d.id }}');prohibir_edicion()" id="detalle2" data-dismiss="modal" class="btn btn-info">Detalle</button></td>			
+					
+					<td id="eliminar_id" width="100"><button class="btn btn-confirm btn-danger"  onclick="openConfirm('{cliente_seguimiento_id:{{ d.id }}}','eliminar')">Eliminar</button></td>
+
+					<!-----------------------------------------------------------------------><!------------------------------------------------------------------------------------------>
+				
+			    </tr>
+			{% endfor %}
+
+		</tbody>
+
+</table>
+<br>
+<br>
+<br>
+
+			</div>
+			
+			<br>
+            <br>
+            <br>
+
+<!------------------------------------ fin tabla --------------------------------------->     
+
+
+ 
+</body>
+
+
+<script  type="text/javascript">
+
+
+function abrirmodal(){
+		
+		 $("#mostrarmodal").modal("show")
+		 gId("id").value=0;
+ 
+		 
+}
+
+function refrescar_pagina(timeoutPeriod) {
+	setTimeout("location.reload(true);",timeoutPeriod);
+}
+
+function guardar(value,status)
+{
+	if(status==undefined)
+	{
+	    var cliente_seguimiento_id = gId("id").value;
+	    var estatura = gId("estatura").value;
+	    var peso_actual = gId("peso_actual").value;
+	    var peso_deseado = gId("peso_deseado").value;
+	    var kilogramos_grasa = gId("kilogramos_grasa").value;
+	    var kilogramos_masa_magra = gId("kilogramos_masa_magra").value;
+	    var gramos_proteina_requeridos = gId("gramos_proteina_requeridos").value;
+	    var sobre_peso_deficit = gId("sobre_peso_deficit").value;
+	    var indice_masa_corporal = gId("indice_masa_corporal").value;
+	    var porcentaje_grasa = gId("porcentaje_grasa").value;
+	    var talla_pantalon = gId("talla_pantalon").value;
+	    var cuello = gId("cuello").value;
+	    var busto = gId("busto").value;
+	    var cintura = gId("cintura").value;
+	    var cadera = gId("cadera").value;
+	    var pierna_izquierda = gId("pierna_izquierda").value;
+	    var pierna_derecha = gId("pierna_derecha").value;
+	    var brazo_izquierdo = gId("brazo_izquierdo").value;
+	    var brazo_derecho = gId("brazo_derecho").value;
+		var estrenimiento = gId("estrenimiento").value;
+		var anemia = gId("anemia").value;
+		var colesterol_alto = gId("colesterol_alto").value;
+		var gastritis = gId("gastritis").value;
+		var ulceras = gId("ulceras").value;
+		var hemorroides = gId("hemorroides").value;
+		var tiroides = gId("tiroides").value;
+		var artrosis_artritis = gId("artrosis_artritis").value;
+		var retencion_liquidos = gId("retencion_liquidos").value;
+		var jaquecas_migranas = gId("jaquecas_migranas").value;
+		var trigliceridos = gId("trigliceridos").value;
+		var osteoporosis = gId("osteoporosis").value;
+		var fuma = gId("fuma").value;
+		var colon_irritable = gId("colon_irritable").value;
+		var ansiedad_frecuente_comidas = gId("ansiedad_frecuente_comidas").value;
+		var apetito_antes_menstruacion = gId("apetito_antes_menstruacion").value;
+		var diabetes_antecedentes_familiares = gId("diabetes_antecedentes_familiares").value;
+		var tencion_arterial = gId("tencion_arterial").value;
+		var problemas_corazon = gId("problemas_corazon").value;
+		var dia_seguimiento = gId("dia_seguimiento").value;
+		var mes_seguimiento = gId("mes_seguimiento").value;
+		var foto = gId("foto").value;
+		var cliente_id = gId("cliente_id").value;
+		
+		
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		var datos= {"id": cliente_seguimiento_id, "estatura": estatura, "peso_actual": peso_actual, "peso_deseado": peso_deseado, "kilogramos_grasa": kilogramos_grasa, "kilogramos_masa_magra": kilogramos_masa_magra, "gramos_proteina_requeridos": gramos_proteina_requeridos, "sobre_peso_deficit": sobre_peso_deficit, "indice_masa_corporal": indice_masa_corporal, "porcentaje_grasa": porcentaje_grasa, "talla_pantalon": talla_pantalon, "cuello": cuello, "busto": busto, "cintura": cintura, "cadera": cadera, "pierna_izquierda": pierna_izquierda, "pierna_derecha": pierna_derecha, "brazo_izquierdo": brazo_izquierdo, "brazo_derecho": brazo_derecho, "estrenimiento": estrenimiento, "anemia": anemia, "colesterol_alto": colesterol_alto, "gastritis": gastritis, "ulceras": ulceras, "hemorroides": hemorroides, "tiroides": tiroides, "artrosis_artritis": artrosis_artritis, "retencion_liquidos": retencion_liquidos, "jaquecas_migranas": jaquecas_migranas, "trigliceridos": trigliceridos, "osteoporosis": osteoporosis, "fuma": fuma, "colon_irritable": colon_irritable, "ansiedad_frecuente_comidas": ansiedad_frecuente_comidas, "apetito_antes_menstruacion": apetito_antes_menstruacion, "diabetes_antecedentes_familiares": diabetes_antecedentes_familiares, "tencion_arterial": tencion_arterial, "problemas_corazon": problemas_corazon, "dia_seguimiento": dia_seguimiento, "mes_seguimiento": mes_seguimiento, "foto": foto, "cliente_id": cliente_id}
+		ajaxBasic(datos,"/main/guardar_seguimiento",'guardar');
+	}
+	else
+	{
+
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		if(value==2)
+		{
+
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			
+			$("#modal_alert_id").modal('show');
+			gId("background-modal").style.backgroundColor = "#5cb85c";
+			gId("alert_id").innerHTML = "Creado con exito"
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+
+		}
+		else if(value==3)
+		{
+
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			$("#modal_alert_id").modal('show');			
+			gId("background-modal").style.backgroundColor = "#5cb85c";			
+			gId("alert_id").innerHTML = "Editado con exito"			
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);						
+			
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+		
+		}
+		else
+		{
+		
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			$("#modal_alert_id").modal('show');
+			gId("background-modal").style.backgroundColor = "red";			
+			gId("alert_id").innerHTML = "No se ha podido guardar con exito"			
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);												
+			
+			
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+		
+
+		}
+		
+	}
+}
+
+function editar(value,status)
+{
+	if(status==undefined)
+	{
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		
+		var datos = { "cliente_seguimiento_id": value }
+		
+		ajaxBasic(datos,"/main/editar_seguimiento",'editar');
+	}
+	else
+	{
+		abrirmodal();
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		gId('id').value = value.id
+		gId('estatura').value = value.estatura
+		gId('peso_actual').value = value.peso_actual
+		gId('peso_deseado').value = value.peso_deseado
+		gId('kilogramos_grasa').value = value.kilogramos_grasa
+		gId('kilogramos_masa_magra').value = value.kilogramos_masa_magra
+		gId('gramos_proteina_requeridos').value = value.gramos_proteina_requeridos
+		gId('sobre_peso_deficit').value = value.sobre_peso_deficit
+		gId('indice_masa_corporal').value = value.indice_masa_corporal
+		gId('porcentaje_grasa').value = value.porcentaje_grasa
+		gId('talla_pantalon').value = value.talla_pantalon
+		gId('cuello').value = value.cuello
+		gId('busto').value = value.busto
+		gId('cintura').value = value.cintura
+		gId('cadera').value = value.cadera
+		gId('pierna_izquierda').value = value.pierna_izquierda
+		gId('pierna_derecha').value = value.pierna_derecha
+		gId('brazo_izquierdo').value = value.brazo_izquierdo
+		gId('brazo_derecho').value = value.brazo_derecho
+		gId('estrenimiento').value = value.estrenimiento
+		gId('anemia').value = value.anemia
+		gId('colesterol_alto').value = value.colesterol_alto
+		gId('gastritis').value = value.gastritis
+		gId('ulceras').value = value.ulceras
+		gId('hemorroides').value = value.hemorroides
+		gId('tiroides').value = value.tiroides
+		gId('artrosis_artritis').value = value.artrosis_artritis
+		gId('retencion_liquidos').value = value.retencion_liquidos
+		gId('jaquecas_migranas').value = value.jaquecas_migranas
+		gId('trigliceridos').value = value.trigliceridos
+		gId('osteoporosis').value = value.osteoporosis
+		gId('fuma').value = value.fuma
+		gId('colon_irritable').value = value.colon_irritable
+		gId('ansiedad_frecuente_comidas').value = value.ansiedad_frecuente_comidas
+		gId('apetito_antes_menstruacion').value = value.apetito_antes_menstruacion
+		gId('diabetes_antecedentes_familiares').value = value.diabetes_antecedentes_familiares
+		gId('tencion_arterial').value = value.tencion_arterial
+		gId('problemas_corazon').value = value.problemas_corazon
+		gId('dia_seguimiento').value = value.dia_seguimiento
+		gId('mes_seguimiento').value = value.mes_seguimiento
+		gId('foto').value = value.foto
+		gId('cliente_id').value = value.cliente_id
+		
+		
+	}
+}
+
+
+function eliminar(value,status)
+{
+	
+	if(status==undefined)
+	{
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		var datos = value;
+		ajaxBasic(datos,"/main/eliminar_seguimiento ",'eliminar');
+	}
+	else
+	{
+
+		if(value==1)
+		{
+		
+			gId("alert_id").innerHTML= "EL REGISTRO YA NO EXISTE EN EL SISTEMA";
+		
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		}
+		else if(value==2)		
+		{
+		
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+
+			$("#modal_alert_id").modal('show');
+			gId("background-modal").style.backgroundColor = "red";			
+						
+			gId("alert_id").innerHTML = "Eliminado con exito"
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);												
+
+			
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+		}
+		else if(value==3)
+		{
+			gId("alert_id").innerHTML= "NO ES POSIBLE ELIMINAR ESTE REGISTRO";
+			gId("alert_id").style.display="block";
+		
+	
+	
+		}
+		
+		setTimeout(function(){document.location.reload(true);},2000);
+	}
+}
+
+
+function detalle(value,status)
+{
+	if(status==undefined)
+	{
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		
+		var datos = { "cliente_seguimiento_id": value }
+		
+		ajaxBasic(datos,"/main/detalle_seguimiento ",'detalle');
+	}
+	else
+	{
+		abrirmodal();
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		gId('id').value = value.id
+		gId('estatura').value = value.estatura
+		gId('peso_actual').value = value.peso_actual
+		gId('peso_deseado').value = value.peso_deseado
+		gId('kilogramos_grasa').value = value.kilogramos_grasa
+		gId('kilogramos_masa_magra').value = value.kilogramos_masa_magra
+		gId('gramos_proteina_requeridos').value = value.gramos_proteina_requeridos
+		gId('sobre_peso_deficit').value = value.sobre_peso_deficit
+		gId('indice_masa_corporal').value = value.indice_masa_corporal
+		gId('porcentaje_grasa').value = value.porcentaje_grasa
+		gId('talla_pantalon').value = value.talla_pantalon
+		gId('cuello').value = value.cuello
+		gId('busto').value = value.busto
+		gId('cintura').value = value.cintura
+		gId('cadera').value = value.cadera
+		gId('pierna_izquierda').value = value.pierna_izquierda
+		gId('pierna_derecha').value = value.pierna_derecha
+		gId('brazo_izquierdo').value = value.brazo_izquierdo
+		gId('brazo_derecho').value = value.brazo_derecho
+		gId('estrenimiento').value = value.estrenimiento
+		gId('anemia').value = value.anemia
+		gId('colesterol_alto').value = value.colesterol_alto
+		gId('gastritis').value = value.gastritis
+		gId('ulceras').value = value.ulceras
+		gId('hemorroides').value = value.hemorroides
+		gId('tiroides').value = value.tiroides
+		gId('artrosis_artritis').value = value.artrosis_artritis
+		gId('retencion_liquidos').value = value.retencion_liquidos
+		gId('jaquecas_migranas').value = value.jaquecas_migranas
+		gId('trigliceridos').value = value.trigliceridos
+		gId('osteoporosis').value = value.osteoporosis
+		gId('fuma').value = value.fuma
+		gId('colon_irritable').value = value.colon_irritable
+		gId('ansiedad_frecuente_comidas').value = value.ansiedad_frecuente_comidas
+		gId('apetito_antes_menstruacion').value = value.apetito_antes_menstruacion
+		gId('diabetes_antecedentes_familiares').value = value.diabetes_antecedentes_familiares
+		gId('tencion_arterial').value = value.tencion_arterial
+		gId('problemas_corazon').value = value.problemas_corazon
+		gId('dia_seguimiento').value = value.dia_seguimiento
+		gId('mes_seguimiento').value = value.mes_seguimiento
+		gId('foto').value = value.foto
+		gId('cliente_id').value = value.cliente_id
+		
+	}
+	
+}
+
+
+function prohibir_edicion() 
+{
+document.getElementById("no_editable").disabled = true;
+document.getElementById("no_editable2").disabled = true;
+document.getElementById("no_editable3").disabled = true;
+document.getElementById("no_editable4").disabled = true;
+document.getElementById("no_editable5").disabled = true;
+document.getElementById("no_editable6").disabled = true;
+document.getElementById("no_editable7").disabled = true;
+document.getElementById("no_editable8").disabled = true;
+document.getElementById("no_editable9").disabled = true;
+document.getElementById("no_editable10").disabled = true;
+document.getElementById("no_editable11").disabled = true;
+document.getElementById("no_editable12").disabled = true;
+document.getElementById("no_editable13").disabled = true;
+document.getElementById("no_editable14").disabled = true;
+document.getElementById("no_editable15").disabled = true;
+document.getElementById("no_editable16").disabled = true;
+document.getElementById("no_editable17").disabled = true;
+document.getElementById("no_editable18").disabled = true;
+document.getElementById("no_editable19").disabled = true;
+document.getElementById("no_editable20").disabled = true;
+document.getElementById("no_editable21").disabled = true;
+document.getElementById("no_editable22").disabled = true;
+document.getElementById("no_editable23").disabled = true;
+document.getElementById("no_editable24").disabled = true;
+document.getElementById("no_editable25").disabled = true;
+document.getElementById("no_editable26").disabled = true;
+document.getElementById("no_editable27").disabled = true;
+document.getElementById("no_editable28").disabled = true;
+document.getElementById("no_editable29").disabled = true;
+document.getElementById("no_editable30").disabled = true;
+document.getElementById("no_editable31").disabled = true;
+document.getElementById("no_editable32").disabled = true;
+document.getElementById("no_editable33").disabled = true;
+document.getElementById("no_editable34").disabled = true;
+document.getElementById("no_editable35").disabled = true;
+document.getElementById("no_editable36").disabled = true;
+document.getElementById("no_editable37").disabled = true;
+document.getElementById("no_editable38").disabled = true;
+document.getElementById("no_editable39").disabled = true;
+document.getElementById("no_editable40").disabled = true;
+document.getElementById("no_editable41").disabled = true;
+document.getElementById("no_editable42").disabled = true;
+
+
+} 
+
+</script>
+
+
+<style type="text/css">
+
+table{
+    table-layout: fixed;
+    width: 100%;
+}
+
+th, td{
+
+    word-wrap: break-word;
+	text-align: center;
+
+}
+
+th {
+    font-size: 10px;
+}
+
+</style>
+
+ 
+</html>
+

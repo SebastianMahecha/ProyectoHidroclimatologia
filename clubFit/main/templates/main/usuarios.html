@@ -1,0 +1,213 @@
+
+<html>
+
+<head>
+
+<script  type="text/javascript" src="/static/main/js/jquery-3.1.1.js"></script>
+	<script  type="text/javascript" src="/static/main/css/bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/static/main/css/bootstrap-3.3.7/dist/css/bootstrap.css">
+	<script  type="text/javascript" src="/static/main/js/basico/ajax.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/dom.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/resemble.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/upload.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/basico.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/base.js"></script>
+
+
+<!------------------------------------------------- INICIO MENU SECUNDARIO ------------------------------------------------------->
+    
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"></li>
+      <li class="dropdown">
+        
+          <li><a href="/main/indexprincipal">Ir al inicio</a></li>
+          
+        </ul>
+      </li>
+      
+    </ul>
+  </div>
+</nav> 
+
+<!------------------------------------------------ FIN MENU DE SECUNDARIO -------------------------------------------------------->
+
+<h1>REGISTRO</h1>               
+
+</head>
+
+<body>
+
+{% csrf_token %}
+		
+		<input type="hidden" name="id" id="id" ><br>
+
+<button onclick="abrirmodal()" class="btn btn-primary"> Nuevo Registro </button>	
+
+<div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+        <button type="button" onclick="refrescar_pagina()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+               
+            <h3>REGISTRO</h3>
+     </div>
+         <div class="modal-body">
+                <div class="form-group">
+					
+					
+					<label for="firstName" class="col-sm-3 control-label">nombres * </label>
+					<input type="text" id="nombres" placeholder="ingrese sus nombres" class="form-control" autofocus>
+					<br>                  
+
+					<label for="lastName" class="col-sm-3 control-label">apellidos * </label>
+					<input type="text" id="apellidos" placeholder="ingrese sus apellidos" class="form-control" autofocus>
+					<br>                  
+
+                    <label class="col-sm-4 control-label">correo electrónico * </label>
+                    <input type="text" id="correo" placeholder="ingrese su correo electrónico" class="form-control" name= "email">
+					<br>                  
+
+                    <label class="col-sm-3 control-label">usuario * </label>
+                    <input type="text" id="usuario" class="form-control">
+					<br>                  
+
+                    <label class="col-sm-3 control-label">contraseña * </label>
+                    <input type="password" id="contrasena" class="form-control">
+                    
+                </div>
+            
+     </div>
+         <div class="modal-footer">
+	    <button onclick="guardar()" id="enviar-btn" data-dismiss="modal" class="btn btn-success">Registro</button>
+
+		<button id="enviarbtn" onclick="refrescar_pagina()" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
+        
+     </div>
+      </div>
+   </div>
+</div>
+
+<br>
+<br>
+
+<!---------------------------------------- inicio parte 1 - alerta personalizado ------------------------------------------------>
+
+<!--  <div class="alert " id="alert_id" style="display:none;">  -->
+<!--  </div> -->    
+  
+<!------------------------------------------ fin parte 1 - alerta personalizado -------------------------------------------------->
+
+
+
+			
+			<br>
+            <br>
+            <br>
+            
+</body>
+
+<script  type="text/javascript">
+
+//gId("id").value=0;
+
+
+function abrirmodal(){
+		
+		 $("#mostrarmodal").modal("show")
+		 gId("id").value=0;
+	}
+
+
+function refrescar_pagina(timeoutPeriod) {
+	
+	setTimeout("location.reload(true);",timeoutPeriod);
+}
+
+
+function guardar(value,status)
+{
+	if(status==undefined)
+	{
+	    var usuarios_id = gId("id").value;
+	    
+	    var nombres = gId("nombres").value;
+	    var apellidos = gId("apellidos").value;
+	    var correo = gId("correo").value;
+	    var usuario = gId("usuario").value;
+	    var contrasena = gId("contrasena").value;
+	    
+  
+	    	    
+	    //console.log(usuarios_id)
+	    //console.log(nombres)
+	    //console.log(apellidos)
+	    //console.log(correo)
+	    //console.log(usuario)
+	    //console.log(contrasena)
+	    //console.log(informacion_id)
+	    
+	    	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		var datos= {"id": usuarios_id, "nombres": nombres, "apellidos": apellidos, "correo": correo, "usuario": usuario, "contrasena": contrasena}
+		ajaxBasic(datos,"/main/guardarcliente",'guardar');
+	}
+	else
+	{
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		if(value==2)
+		{
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			$("#modal_alert_id").modal('show');
+//			gId("background-modal").style.backgroundColor = "#5cb85c";
+//			gId("alert_id").innerHTML = "Creado con exito"
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);
+
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+			
+			
+		}
+		else if(value==3)
+		{
+
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+//			gId("alert_id").style.display="block";
+//			gId("alert_id").innerHTML = "editado con exito"
+//			gId("mostrarmodal").style.display="none";
+//			setTimeout(function(){document.location.reload(true);},2000);
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+
+		}
+		else
+		{
+
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			$("#modal_alert_id").modal('show');
+			gId("background-modal").style.backgroundColor = "red";			
+			gId("alert_id").innerHTML = "No se ha podido guardar con exito"			
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);												
+
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+
+		}
+		
+	}
+}
+
+
+</script>
+
+</html>
+

@@ -1,0 +1,30 @@
+
+from django.urls import path
+
+from . import views
+from django.urls import include,path
+
+
+urlpatterns = [
+    path('', views.index, name='index'),
+    #############################---INICIO DE DEPARTAMENTO---###################################
+    
+    path('departamento', views.departamento, name='departamento'),
+	path('guardarDepartamento', views.guardarDepartamento, name='guardarDepartamento'),
+	path('editarDepartamento', views.editarDepartamento, name='editarDepartamento'),
+	path('eliminarDepartamento', views.eliminarDepartamento, name='eliminarDepartamento'),
+	
+	#############################---FIN DE DEPARTAMENTO---######################################
+    
+    #############################---INICIO DE MUNICIPIO---###################################
+    path('municipio', views.municipio, name='municipio'),
+    path('guardarMunicipio', views.guardarMunicipio, name='guardarMunicipio'),
+    path('editarMunicipio', views.editarMunicipio, name='editarMunicipio'),
+    path('eliminarMunicipio', views.eliminarMunicipio, name='eliminarMunicipio'),
+    
+    #############################---FIN DE MUNICIPIO---###################################
+    
+    path('TipoDocumento', views.TipoDocumento, name='TipoDocumento')
+
+]
+

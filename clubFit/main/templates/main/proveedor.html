@@ -1,0 +1,345 @@
+<html>
+<head>
+	<script  type="text/javascript" src="/static/main/js/jquery-3.1.1.js"></script>
+	<script  type="text/javascript" src="/static/main/css/bootstrap-3.3.7/dist/js/bootstrap.js"></script>
+	<link rel="stylesheet" href="/static/main/css/bootstrap-3.3.7/dist/css/bootstrap.css">
+	<script  type="text/javascript" src="/static/main/js/basico/ajax.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/dom.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/resemble.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/upload.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/basico.js"></script>	
+	<script  type="text/javascript" src="/static/main/js/basico/base.js"></script>
+	
+	<!------------------------------------------------- INICIO MENU SECUNDARIO ------------------------------------------------------->
+    
+    <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#"></a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"></li>
+      <li class="dropdown">
+        
+          <li><a href="/main/indexprincipal">Ir al inicio</a></li>
+          
+        </ul>
+      </li>
+      
+    </ul>
+  </div>
+</nav> 
+
+<!------------------------------------------------ FIN MENU DE SECUNDARIO -------------------------------------------------------->
+
+	
+<h1>PROVEEDOR</h1>
+
+</head>
+
+
+<body>
+
+	{% csrf_token %}
+		
+		<input type="hidden" name="id" id="id" ><br>
+		
+		
+<button onclick="abrirmodal()" class="btn btn-primary"> nuevo </button>	
+
+<div class="modal fade" id="mostrarmodal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+        <button type="button"  class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        
+			<h3>Proveedor</h3>
+			
+			<p>tipo de documento</p>
+			
+
+		<select name="tipodocumento_name" id="tipodocumento_id">
+			<option value="">Seleccione...</option>
+			{% for i in tipodocumento %}
+				<option value="{{ i.id }}">{{ i.detalle }}</option>
+			{% endfor %}
+		</select>
+			
+		</div>
+         <div class="modal-body">
+			      
+            <p>Nombre</p>
+            <input type="text" id="nombre">
+            
+            <p>numero de documento</p>
+            <input type="text" id="numero_documento">
+            
+            <p>correo</p>
+            <input type="text" id="correo">
+            
+            <p>telefono</p>
+            <input type="text" id="telefono">
+            
+            <p>direccion</p>
+            <input type="text" id="direccion">
+            
+     </div>
+         <div class="modal-footer">
+	    <button onclick="guardar()" id="enviar-btn" data-dismiss="modal" class="btn btn-success">Guardar</button>
+
+		<button onclick="" id="enviarbtn" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
+        
+     </div>
+      </div>
+   </div>
+</div>
+
+<br>
+<br>
+
+
+
+<!---------------------------------------- inicio parte 1 - alerta personalizado ------------------------------------------------>
+
+<div class="alert " id="alert_id" style="display:none;">  
+  
+</div>
+  
+<!------------------------------------------ fin parte 1 - alerta personalizado -------------------------------------------------->
+
+
+
+     
+<!----------------------------------- inicio tabla -------------------------------------->
+
+<table id="tabla_id" class="display" border="2" cellspacing="0" width="99%">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>NOMBRE</th>
+				<th>NUMERO DE DOCUMENTO</th>
+				<th>CORREO</th>
+				<th>TELÉFONO</th>
+				<th>DIRECCIÓN</th>
+				
+				<th>TIPO DE DOCUMENTO</th>
+				
+				<th colspan="2">OPCIONES</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for t in proveedor %}
+				<tr>
+					<td>{{ t.id }}</td>
+					<td>{{ t.nombre }}</td>
+					<td>{{ t.numero_documento }}</td>
+					<td>{{ t.correo }}</td>
+					<td>{{ t.telefono }}</td>
+					<td>{{ t.direccion }}</td>
+					<td>{{ t.tipodocumento.detalle }}</td>
+					
+					<!-----------------------------------------------------------------------><!------------------------------------------------------------------------------------------>
+					<td id="editar"><button onclick="editar('{{ t.id }}')" id="enviar-btn" data-dismiss="modal" class="btn btn-success">Modificar</button></td>
+					
+					<td id="eliminar_id"><button onclick="eliminarproveedor('{{ t.id }}')" id="enviarbtn2" data-dismiss="modal" class="btn btn-danger">Eliminar</button></td>
+					 
+					<!-----------------------------------------------------------------------><!------------------------------------------------------------------------------------------>
+				</tr>
+			{% endfor %}
+		</tbody>
+		
+	</tbody>
+</table>
+<br>
+<br>
+<br>
+
+<!------------------------------------ fin tabla --------------------------------------->     
+
+   
+</body>
+
+
+
+
+
+
+
+
+<script  type="text/javascript">
+
+function abrirmodal(){
+		
+		$("#mostrarmodal").modal("show")
+		gId("id").value=0;
+		
+	}
+	
+function guardar(value,status)
+{
+	if(status==undefined)
+	{
+	    var proveedor_id = gId("id").value;
+	    var nombre = gId("nombre").value;	    
+	    var numero_documento = gId("numero_documento").value;
+	    var correo = gId("correo").value;
+	    var telefono = gId("telefono").value;
+	    var direccion = gId("direccion").value;
+	    var tipodocumento_id = gId("tipodocumento_id").value;
+	    
+	    console.log(proveedor_id)
+	    console.log(nombre)
+	    console.log(numero_documento)
+	    console.log(correo)
+	    console.log(telefono)
+	    console.log(direccion)
+	    console.log(tipodocumento_id)
+	    
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		var datos= {"id": proveedor_id, "nombre": nombre, "numero_documento":numero_documento , "correo":correo , "telefono":telefono , "direccion":direccion , "tipodocumento_id":tipodocumento_id }
+		ajaxBasic(datos,"/main/guardarproveedor",'guardar');
+	}
+	else
+	{
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		if(value==2)
+		{
+
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			gId("alert_id").style.display="block";
+			gId("alert_id").innerHTML = "creado con exito"
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+
+		}
+		else if(value==3)
+		{
+			
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			gId("alert_id").style.display="block";
+			gId("alert_id").innerHTML = "editado con exito"
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+
+		}
+		else
+		{
+			
+//----------------------------------------- inicio parte 2 - alerta personalizado -------------------------------------------------			
+			
+			gId("alert_id").style.display="block";
+			gId("alert_id").innerHTML = "no ok"
+			gId("mostrarmodal").style.display="none";
+			setTimeout(function(){document.location.reload(true);},2000);
+
+//------------------------------------------- fin parte 2 - alerta personalizado --------------------------------------------------
+			
+		}
+		
+	}
+}
+
+function eliminarproveedor(value,status)
+{
+	if(status==undefined)
+	{
+	    
+	    
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		var datos= { "proveedor_id": value }
+		ajaxBasic(datos,"/main/eliminarproveedor",'editar');
+	}
+	else
+	{
+		abrirmodal();
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		gId('nombre').value = value.nombre
+		
+		gId('numero_documento').value = value.numero_documento
+		gId('correo').value = value.correo
+		gId('telefono').value = value.telefono
+		gId('direccion').value = value.direccion
+		
+		gId('tipodocumento_id').value = value.tipodocumento_id
+	}
+}
+
+
+function editar(value,status)
+{
+	if(status==undefined)
+	{
+	    
+		// se define  un diccionario con los datos a enviar y se ejecuta el ajax
+		var datos= { "proveedor_id": value }
+		ajaxBasic(datos,"/main/editarproveedor",'editar');
+	}
+	else
+	{
+		abrirmodal();
+		//si status esta definido quiere decir que la variable value trae la informacion de la respuesta del ajax.
+		gId('id').value = value.proveedor_id
+		gId('nombre').value = value.nombre
+		
+		gId('numero_documento').value = value.numero_documento
+		gId('correo').value = value.correo
+		gId('telefono').value = value.telefono
+		gId('direccion').value = value.direccion
+		
+		gId('tipodocumento_id').value = value.tipodocumento_id
+	}
+}
+
+
+
+
+					
+</script>
+
+
+
+
+
+
+
+
+<!--############################################-----INICIO CSS PROVEEDOR-----###########################################-->
+<style type="text/css">
+table th {
+  text-align: center;
+}	
+
+.alert {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    
+    margin-bottom: 10px;
+    text-align: center;
+    
+    margin-left: 15px;
+    margin-right: 15px;
+    
+    width: 60%;
+    height: 20%;
+    line-height: 20px;
+    font-size: 60px;
+    
+}
+
+
+</style>
+
+
+
+<!--############################################-----FIN CSS PROVEEDOR-----###########################################-->
+
+</html>
